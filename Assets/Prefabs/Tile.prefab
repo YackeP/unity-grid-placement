@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3372671398470536455}
   - component: {fileID: 5037275537585677263}
+  - component: {fileID: 1070678704055731558}
   m_Layer: 6
   m_Name: Tile
   m_TagString: Untagged
@@ -49,6 +50,20 @@ MonoBehaviour:
   normalTileMaterial: {fileID: 2100000, guid: 28073899d43fa854f9aa5deb3fad2fae, type: 2}
   highlightedTileMaterial: {fileID: 2100000, guid: 46b8b335b6fec754b9b8c51f31fee417, type: 2}
   tilePlate: {fileID: 3372671399622848334}
+  placedObject: {fileID: 0}
+--- !u!65 &1070678704055731558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372671398470536452}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.1, z: 1}
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &3372671399622848334
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +75,6 @@ GameObject:
   - component: {fileID: 3372671399622848321}
   - component: {fileID: 3372671399622848322}
   - component: {fileID: 3372671399622848323}
-  - component: {fileID: 3372671399622848320}
   m_Layer: 6
   m_Name: TilePlate
   m_TagString: Untagged
@@ -76,7 +90,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3372671399622848334}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.027162552, y: -0.791, z: -0.3128543}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 0.9, y: 0.1, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133,19 +147,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3372671399622848320
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3372671399622848334}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3372671399771744754
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +158,6 @@ GameObject:
   - component: {fileID: 3372671399771744757}
   - component: {fileID: 3372671399771744758}
   - component: {fileID: 3372671399771744759}
-  - component: {fileID: 3372671399771744756}
   m_Layer: 6
   m_Name: BackTile
   m_TagString: Untagged
@@ -173,7 +173,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3372671399771744754}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.027162552, y: -0.82245684, z: -0.3128543}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -230,16 +230,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3372671399771744756
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3372671399771744754}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

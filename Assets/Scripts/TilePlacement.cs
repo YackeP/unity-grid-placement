@@ -27,33 +27,44 @@ public class TilePlacement : MonoBehaviour
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
- 
-        if (Physics.Raycast(ray, out hitData, 1000, placedLayer))
+
+        // FIXME: this ray will go THROUGH all the other objects until it encounters
+        LayerMask hittableMask = gridLayer + placedLayer;
+        
+        if(Physics.Raycast(ray, out hitData, 1000, hittableMask) ==true)
         {
-            GameObject hitObject = hitData.transform.gameObject;
-            objectPrefab.transform.position = hitObject.transform.position;
-            if (Input.GetMouseButtonDown(0))
+            GameObject hitObject = hitData.transform.gameObject;            
+            if (isOnLayer(placedLayer, hitObject) && Input.GetMouseButtonDown(1))
             {
                 Destroy(hitObject);
             }
-        }
-        else if (Physics.Raycast(ray, out hitData, 1000, gridLayer))
-        {
-            if(objectGhost == null)
+            else if (isOnLayer(gridLayer, hitObject))
             {
-                objectGhost = Instantiate(objectGhostPrefab);
+                if (objectGhost == null)
+                {
+                    objectGhost = Instantiate(objectGhostPrefab);
+                }
+                objectGhost.transform.position = hitObject.transform.position + Vector3.up;
+                // the tiles aren't instantiated, because the ray is stopped by the layermask of the ghost
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("create object on grid");
+                    Instantiate(objectPrefab, hitObject.transform.position + Vector3.up * 0.5f, hitObject.transform.rotation);
+                }
             }
-            // objectPrefab.transform.position = hitData.point;
-            GameObject hitObject = hitData.transform.gameObject;
-            objectGhost.transform.position = hitObject.transform.position;
-            if (Input.GetMouseButtonDown(0))
-            {
-                Instantiate(objectPrefab, hitObject.transform.position, hitObject.transform.rotation);
-            }
+            
         }
-        else if(objectGhost != null)
+        else if (objectGhost != null)
         {
             Destroy(objectGhost);
         }
+
+    }
+
+    private bool isOnLayer(LayerMask layerMask, GameObject hitObject)
+    {
+        return (layerMask.value & 1 << hitObject.layer) != 0;
     }
 }
+
+

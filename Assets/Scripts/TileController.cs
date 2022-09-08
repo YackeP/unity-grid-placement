@@ -12,17 +12,9 @@ public class TileController : MonoBehaviour
 
     private Material tilePlateMaterial;
 
-    // Start is called before the first frame update
     void Start()
     {
         tilePlateMaterial = tilePlate.GetComponent<Material>();
-
-}
-
-// Update is called once per frame
-void Update()
-    {
-        
     }
 
     public void onTileHover()
