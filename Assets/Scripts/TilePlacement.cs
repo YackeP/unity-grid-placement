@@ -10,6 +10,7 @@ public class TilePlacement : MonoBehaviour
     GameObject objectGhostPrefab;
 
     private GameObject objectGhost;
+    private TileController hoveredTile;
 
     private Camera mainCamera;
     private RaycastHit hitData;
@@ -28,18 +29,27 @@ public class TilePlacement : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        // FIXME: this ray will go THROUGH all the other objects until it encounters
         LayerMask hittableMask = gridLayer + placedLayer;
-        
-        if(Physics.Raycast(ray, out hitData, 1000, hittableMask) ==true)
+
+        if (Physics.Raycast(ray, out hitData, 1000, hittableMask) == true)
         {
-            GameObject hitObject = hitData.transform.gameObject;            
+
+            GameObject hitObject = hitData.transform.gameObject;
             if (isOnLayer(placedLayer, hitObject) && Input.GetMouseButtonDown(1))
             {
                 Destroy(hitObject);
             }
             else if (isOnLayer(gridLayer, hitObject))
             {
+                if (hoveredTile != hitObject.GetComponent<TileController>())
+                {
+                    if (hoveredTile != null)
+                    {
+                        hoveredTile.onTileUnhover();
+                    }
+                    hoveredTile = hitObject.GetComponent<TileController>();
+                    hoveredTile.onTileHover();
+                }
                 if (objectGhost == null)
                 {
                     objectGhost = Instantiate(objectGhostPrefab);
@@ -48,16 +58,24 @@ public class TilePlacement : MonoBehaviour
                 // the tiles aren't instantiated, because the ray is stopped by the layermask of the ghost
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("create object on grid");
                     Instantiate(objectPrefab, hitObject.transform.position + Vector3.up * 0.5f, hitObject.transform.rotation);
                 }
             }
-            
+
         }
-        else if (objectGhost != null)
+        else
         {
-            Destroy(objectGhost);
+            if (hoveredTile != null)
+            {
+                hoveredTile.onTileUnhover();
+                hoveredTile = null;
+            }
+            if (objectGhost != null)
+            {
+                Destroy(objectGhost);
+            }
         }
+
 
     }
 

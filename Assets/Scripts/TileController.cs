@@ -11,19 +11,20 @@ public class TileController : MonoBehaviour
     public GameObject placedObject;
 
     private Material tilePlateMaterial;
+    private Renderer tilePlateRenderer;
 
     void Start()
     {
-        tilePlateMaterial = tilePlate.GetComponent<Material>();
+        tilePlateRenderer = tilePlate.GetComponent<Renderer>();
     }
 
     public void onTileHover()
     {
-        tilePlateMaterial = highlightedTileMaterial;
+        tilePlateRenderer.material = highlightedTileMaterial;
     }
 
     public void onTileUnhover()
     {
-        tilePlateMaterial = normalTileMaterial;
+        tilePlateRenderer.material = normalTileMaterial;
     }
 }
