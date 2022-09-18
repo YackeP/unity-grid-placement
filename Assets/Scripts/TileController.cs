@@ -8,9 +8,8 @@ public class TileController : MonoBehaviour
     public Material highlightedTileMaterial;
     public GameObject tilePlate;
 
-    public GameObject placedObject;
+    public GridPlaceableObject placedObject;
 
-    private Material tilePlateMaterial;
     private Renderer tilePlateRenderer;
 
     void Start()
@@ -21,6 +20,25 @@ public class TileController : MonoBehaviour
     public void onTileHover()
     {
         tilePlateRenderer.material = highlightedTileMaterial;
+    }
+
+    public void onTilePlace(GameObject objectPrefab)
+    {
+        if (placedObject == null)
+        {
+            placedObject = Instantiate(objectPrefab, transform.position + Vector3.up * 0.5f, transform.rotation)
+                .GetComponent<GridPlaceableObject>();
+            placedObject.setParent(this);
+        }
+    }
+
+    public void onObjectRemove()
+    {
+        if (placedObject == null)
+        {
+            placedObject.onDelete();
+        }
+        placedObject = null;
     }
 
     public void onTileUnhover()

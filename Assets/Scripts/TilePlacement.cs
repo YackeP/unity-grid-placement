@@ -55,10 +55,9 @@ public class TilePlacement : MonoBehaviour
                     objectGhost = Instantiate(objectGhostPrefab);
                 }
                 objectGhost.transform.position = hitObject.transform.position + Vector3.up;
-                // the tiles aren't instantiated, because the ray is stopped by the layermask of the ghost
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Instantiate(objectPrefab, hitObject.transform.position + Vector3.up * 0.5f, hitObject.transform.rotation);
+                    hoveredTile.onTilePlace(objectPrefab);
                 }
             }
 
