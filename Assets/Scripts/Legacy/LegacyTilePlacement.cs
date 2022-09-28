@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TilePlacement : MonoBehaviour
+public class LegacyTilePlacement : MonoBehaviour
 {
     [SerializeField]
     GameObject objectPrefab;
@@ -10,7 +10,7 @@ public class TilePlacement : MonoBehaviour
     GameObject objectGhostPrefab;
 
     private GameObject objectGhost;
-    private TileController hoveredTile;
+    private LegacyTileController hoveredTile;
 
     private Camera mainCamera;
     private RaycastHit hitData;
@@ -41,13 +41,13 @@ public class TilePlacement : MonoBehaviour
             }
             else if (isOnLayer(gridLayer, hitObject))
             {
-                if (hoveredTile != hitObject.GetComponent<TileController>())
+                if (hoveredTile != hitObject.GetComponent<LegacyTileController>())
                 {
                     if (hoveredTile != null)
                     {
                         hoveredTile.onTileUnhover();
                     }
-                    hoveredTile = hitObject.GetComponent<TileController>();
+                    hoveredTile = hitObject.GetComponent<LegacyTileController>();
                     hoveredTile.onTileHover();
                 }
                 if (objectGhost == null)

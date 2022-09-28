@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridPlaceableObject : MonoBehaviour
+public class LegacyGridPlaceableObject : MonoBehaviour
 {
-    private TileController parentTileController;
+    private LegacyTileController parentTileController;
 
     // is there any way to set the parent value on creation without using a public method? Something akin to a constructor?
-    public void setParent(TileController tileController)
+    public void setParent(LegacyTileController tileController)
     {
         parentTileController = tileController;
     }
@@ -23,5 +23,10 @@ public class GridPlaceableObject : MonoBehaviour
     public void onDelete()
     {
         Destroy(gameObject);
+    }
+
+    public void onGridUpdate()
+    {
+
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 786138567407530647}
   - component: {fileID: -7621823118665301979}
   m_Layer: 7
-  m_Name: PlacedObject
+  m_Name: LegacyPlacedObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

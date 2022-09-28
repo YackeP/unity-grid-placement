@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileController : MonoBehaviour
+public class LegacyTileController : MonoBehaviour
 {
     public Material normalTileMaterial;
     public Material highlightedTileMaterial;
     public GameObject tilePlate;
 
-    public GridPlaceableObject placedObject;
+    public LegacyGridPlaceableObject placedObject;
 
     private Renderer tilePlateRenderer;
 
@@ -27,7 +27,7 @@ public class TileController : MonoBehaviour
         if (placedObject == null)
         {
             placedObject = Instantiate(objectPrefab, transform.position + Vector3.up * 0.5f, transform.rotation)
-                .GetComponent<GridPlaceableObject>();
+                .GetComponent<LegacyGridPlaceableObject>();
             placedObject.setParent(this);
         }
     }
