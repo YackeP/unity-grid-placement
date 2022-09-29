@@ -16,14 +16,13 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField]
     private Tilemap mainTilemap;
     [SerializeField]
-    private TileBase whiteTile;
+    private TileBase occupiedTile;
 
     public GameObject prefab1;
     public GameObject prefab2;
 
     private PlaceableObject objectToPlace;
 
-    // Ctrl + M + M or Ctrl + -/+ to collapse/uncollapse a region
     #region Unity methods
     private void Awake()
     {
@@ -77,6 +76,11 @@ public class BuildingSystem : MonoBehaviour
 
     #region Utils
 
+
+
+    /// <summary>
+    /// Returns the point in the world at which the mouse is pointing at 
+    /// </summary>
     public static Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -90,6 +94,10 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the wold position of the cell closest to the given position
+    /// </summary>
+    /// <param name="position">Position to be snapped to the closest cell position</param>
     public Vector3 SnapCoordinatesToGrid(Vector3 position)
     {
         Vector3Int cellPos = gridLayout.WorldToCell(position);
@@ -98,6 +106,11 @@ public class BuildingSystem : MonoBehaviour
         return position;
     }
 
+    /// <summary>
+    /// Returns an array of tiles on the tilemap that are covered by the given area
+    /// </summary>
+    /// <param name="area"></param>
+    /// <param name="tilemap">Tilemap from which the tiles are to be taken</param>
     private static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
     {
         TileBase[] tileArray = new TileBase[area.size.x * area.size.y * area.size.z];
@@ -116,6 +129,10 @@ public class BuildingSystem : MonoBehaviour
 
     #region BuildingPlacement
 
+    /// <summary>
+    /// Instantiate a given prefab, attach an instance of PlaceableObject to it, and focus the BuildingSystem to it 
+    /// </summary>
+    /// <param name="prefab"></param>
     public void InitializeWithObject(GameObject prefab)
     {
         Vector3 position = SnapCoordinatesToGrid(Vector3.zero);
@@ -125,6 +142,10 @@ public class BuildingSystem : MonoBehaviour
         obj.AddComponent<ObjectDrag>();
     }
 
+    /// <summary>
+    /// Check if the currently focused placeable object can be placed in it's current position
+    /// </summary>
+    /// <param name="placeableObject"></param>
     private bool CanBePlaced(PlaceableObject placeableObject)
     {
         BoundsInt area = new BoundsInt(); // Represents an axis aligned bounding box with all values as integers.
@@ -136,7 +157,7 @@ public class BuildingSystem : MonoBehaviour
 
         foreach (var b in baseArray)
         {
-            if (b == whiteTile) // if any of the tiles is occupied
+            if (b == occupiedTile) // if any of the tiles is occupied
             {
                 return false;
             }
@@ -145,9 +166,14 @@ public class BuildingSystem : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Set an area on the tilemap as occupied
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="size"></param>
     public void TakeArea(Vector3Int start, Vector3Int size)
     {
-        mainTilemap.BoxFill(start, whiteTile,
+        mainTilemap.BoxFill(start, occupiedTile,
             start.x, start.y,
             start.x + size.x, start.y + size.y);
     }
