@@ -16,7 +16,10 @@ public class PlaceableObject : MonoBehaviour
     /// <summary>
     /// Array of points defining the bottom side of the collider in the local space, used to check how much space the object is going to take on the tilemap
     /// </summary>
-    private Vector3[] vertices; 
+    private Vector3[] vertices;
+
+    [SerializeField]
+    private LayerMask placedMask;
 
     private void Start()
     {
@@ -56,7 +59,7 @@ public class PlaceableObject : MonoBehaviour
         size = new Vector3Int(
             Mathf.Abs((gridVertices[0] - gridVertices[1]).x),
             Mathf.Abs((gridVertices[0] - gridVertices[3]).y),
-            1); 
+            1);
         // interdasting -> we set z as 1, even tho we are operating on the XZ axis on the gridm. In gobal world, the y value should probably have been set to 1
 
     }
@@ -73,7 +76,7 @@ public class PlaceableObject : MonoBehaviour
         {
             vertices[i] = vertices[(i + 1) % vertices.Length];
         }
-        vertices= newVertices;
+        vertices = newVertices;
     }
 
     /// <summary>
@@ -87,13 +90,40 @@ public class PlaceableObject : MonoBehaviour
     /// <summary>
     /// Calls logic that has to do with the object being placed
     /// </summary>
-    public virtual void Place()
+    public void Place()
     {
         ObjectDrag drag = gameObject.GetComponent<ObjectDrag>();
         Destroy(drag);
+
+        PlacedObject placedObjectScript = gameObject.GetComponent<PlacedObject>();
+        Debug.Log("placedMask value: " + placedMask.value); //128, which is 2^7, as the index of the chosen layer is 7, which can be gotten from NameToLayer()
+        // we can fix this layer with some bithsifting magic
+        Debug.Log("NameToLayer (index of the layer): " + LayerMask.NameToLayer("PlacedObject"));
+        Debug.Log("using log: " + Mathf.Log(placedMask, 2));
+        Debug.Log("Physics.allLayers: " + Physics.AllLayers);
+
+        gameObject.layer = getLayerIndex(placedMask);
+        placedObjectScript.enabled = true;
+        GridObjectManager.current.AddObjectToGrid(gameObject.GetComponent<PlacedObject>());
 
         placed = true;
 
         // stuff that does with placement
     }
+
+    public virtual void HandlePlacement()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    //this should be in some sort of a library 
+    private int getLayerIndex(LayerMask layerMask)
+    {
+        if (layerMask <= 1)
+        {
+            return layerMask;
+        }
+        return (int)Mathf.Log(layerMask, 2);
+    }
+
 }

@@ -18,8 +18,12 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField]
     private TileBase occupiedTile;
 
+    [SerializeField]
+    private GridObjectManager gridObjectManager;
+
     public GameObject prefab1;
     public GameObject prefab2;
+    public GameObject prefab3;
 
     private PlaceableObject objectToPlace;
 
@@ -39,6 +43,10 @@ public class BuildingSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             InitializeWithObject(prefab2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            InitializeWithObject(prefab3);
         }
 
         if (!objectToPlace)
