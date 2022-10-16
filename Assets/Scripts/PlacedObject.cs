@@ -6,12 +6,12 @@ public class PlacedObject : MonoBehaviour
 {
     public virtual void HandlePlacement()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("HandlePlacement not defined");
     }
 
     public virtual void UpdateObject()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("HandlePlacement not defined");
     }
 
 }

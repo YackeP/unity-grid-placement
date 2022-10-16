@@ -16,29 +16,29 @@ public class PlaceableObject : MonoBehaviour
     /// <summary>
     /// Array of points defining the bottom side of the collider in the local space, used to check how much space the object is going to take on the tilemap
     /// </summary>
-    private Vector3[] vertices;
+    private Vector3[] bottomVertices;
 
     [SerializeField]
     private LayerMask placedMask;
 
     private void Start()
     {
-        GetColliderVertexPositionsLocal();
+        SetColliderVertexPositionsLocal();
         CalculatSizeInCells();
     }
 
     /// <summary>
     /// Sets vertices as the bottom side of the collider
     /// </summary>
-    private void GetColliderVertexPositionsLocal()
+    private void SetColliderVertexPositionsLocal()
     {
         BoxCollider b = gameObject.GetComponent<BoxCollider>();
-        vertices = new Vector3[4];
-        // if we set one of the corners as the start of the local coordinate system, and the center of the collider is (x/2, y/2, z/2):
-        vertices[0] = b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f; // (0,0,0) 
-        vertices[1] = b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f; // (x,0,0)
-        vertices[2] = b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f; // (x,0,z)
-        vertices[3] = b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f; // (0,0,z)
+        bottomVertices = new Vector3[4];
+        // if we set one of the corners as the start of the local coordinate system, and the center of the collider to be (x/2, y/2, z/2):
+        bottomVertices[0] = b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f; // (0,0,0) 
+        bottomVertices[1] = b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f; // (x,0,0)
+        bottomVertices[2] = b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f; // (x,0,z)
+        bottomVertices[3] = b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f; // (0,0,z)
         // this gives us all the bottom vertices -> a square filled by the object's collider
     }
 
@@ -47,11 +47,11 @@ public class PlaceableObject : MonoBehaviour
     /// </summary>
     private void CalculatSizeInCells()
     {
-        Vector3Int[] gridVertices = new Vector3Int[vertices.Length];
+        Vector3Int[] gridVertices = new Vector3Int[bottomVertices.Length];
 
         for (int i = 0; i < gridVertices.Length; i++)
         {
-            Vector3 worldPos = transform.TransformPoint(vertices[i]); //transform.TransformPoint() - Transforms position from local space to world space
+            Vector3 worldPos = transform.TransformPoint(bottomVertices[i]); //transform.TransformPoint() - Transforms position from local space to world space
             gridVertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
 
         }
@@ -71,12 +71,12 @@ public class PlaceableObject : MonoBehaviour
     {
         transform.Rotate(new Vector3(0, 90, 0));
         size = new Vector3Int(size.y, size.x, 1);
-        Vector3[] newVertices = new Vector3[vertices.Length];
+        Vector3[] newVertices = new Vector3[bottomVertices.Length];
         for (int i = 0; i < newVertices.Length; i++)
         {
-            vertices[i] = vertices[(i + 1) % vertices.Length];
+            newVertices[i] = bottomVertices[(i + 1) % bottomVertices.Length];
         }
-        vertices = newVertices;
+        bottomVertices = newVertices;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class PlaceableObject : MonoBehaviour
     /// </summary>
     public Vector3 GetStartPosition()
     {
-        return transform.TransformPoint(vertices[0]);
+        return transform.TransformPoint(bottomVertices[0]);
     }
 
     /// <summary>
@@ -96,11 +96,10 @@ public class PlaceableObject : MonoBehaviour
         Destroy(drag);
 
         PlacedObject placedObjectScript = gameObject.GetComponent<PlacedObject>();
-        Debug.Log("placedMask value: " + placedMask.value); //128, which is 2^7, as the index of the chosen layer is 7, which can be gotten from NameToLayer()
+        // Debug.Log("placedMask value: " + placedMask.value); //128, which is 2^7, as the index of the chosen layer is 7, which can be gotten from NameToLayer()
         // we can fix this layer with some bithsifting magic
-        Debug.Log("NameToLayer (index of the layer): " + LayerMask.NameToLayer("PlacedObject"));
-        Debug.Log("using log: " + Mathf.Log(placedMask, 2));
-        Debug.Log("Physics.allLayers: " + Physics.AllLayers);
+        //Debug.Log("NameToLayer (index of the layer): " + LayerMask.NameToLayer("PlacedObject"));
+        // Debug.Log("using log: " + Mathf.Log(placedMask, 2));
 
         gameObject.layer = getLayerIndex(placedMask);
         placedObjectScript.enabled = true;
@@ -116,7 +115,7 @@ public class PlaceableObject : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
-    //this should be in some sort of a library 
+    //this should be in some sort of a utility library 
     private int getLayerIndex(LayerMask layerMask)
     {
         if (layerMask <= 1)

@@ -65,10 +65,13 @@ public class BuildingSystem : MonoBehaviour
             {
                 objectToPlace.Place();
                 Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());
+                start.z = 0; // this is so that all the objects are placed on the same grid height (because of the swizzle the vector's Z component is responsible on height in the grid)
                 TakeArea(start, objectToPlace.size);
+                objectToPlace = null;
             }
             else
             {
+                Debug.Log("Can not place PlaceableObject at (" + gridLayout.WorldToCell(objectToPlace.GetStartPosition()) + " - " + (gridLayout.WorldToCell(objectToPlace.GetStartPosition())+ objectToPlace.size) + ")");
                 Destroy(objectToPlace.gameObject);
 
             }
