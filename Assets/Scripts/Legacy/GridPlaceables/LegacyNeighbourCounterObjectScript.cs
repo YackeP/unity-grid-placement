@@ -22,6 +22,5 @@ public class LegacyNeighbourCounterObjectScript : LegacyGridPlaceableObject
 
     new void onGridUpdate()
     {
-        int neighbourCount = 0;
     }
 }

@@ -27,6 +27,8 @@ public class BuildingSystem : MonoBehaviour
 
     private PlaceableObject objectToPlace;
 
+    public GameObject placeableObject;
+
     #region Unity methods
     private void Awake()
     {
@@ -36,6 +38,11 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            InitializeWithObject(placeableObject);
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             InitializeWithObject(prefab1);
