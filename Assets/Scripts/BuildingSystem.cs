@@ -16,7 +16,13 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField]
     private Tilemap mainTilemap;
     [SerializeField]
+    private Tilemap highlightTilemap;
+    [SerializeField]
     private TileBase occupiedTile;
+    [SerializeField]
+    private TileBase badPlacementTile;
+    [SerializeField]
+    private TileBase goodPlacementTile;
 
     [SerializeField]
     private GridObjectManager gridObjectManager;
@@ -38,7 +44,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             InitializeWithObject(placeableObject);
         }
@@ -73,13 +79,15 @@ public class BuildingSystem : MonoBehaviour
                 objectToPlace.Place();
                 Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());
                 start.z = 0; // this is so that all the objects are placed on the same grid height (because of the swizzle the vector's Z component is responsible on height in the grid)
-                TakeArea(start, objectToPlace.size);
+                TakeArea(mainTilemap, occupiedTile, start, objectToPlace.size);
+                highlightTilemap.ClearAllTiles();
                 objectToPlace = null;
             }
             else
             {
-                Debug.Log("Can not place PlaceableObject at (" + gridLayout.WorldToCell(objectToPlace.GetStartPosition()) + " - " + (gridLayout.WorldToCell(objectToPlace.GetStartPosition())+ objectToPlace.size) + ")");
+                Debug.Log("Can not place PlaceableObject at (" + gridLayout.WorldToCell(objectToPlace.GetStartPosition()) + " - " + (gridLayout.WorldToCell(objectToPlace.GetStartPosition()) + objectToPlace.size) + ")");
                 Destroy(objectToPlace.gameObject);
+                highlightTilemap.ClearAllTiles();
 
             }
         }
@@ -147,6 +155,26 @@ public class BuildingSystem : MonoBehaviour
 
     #region BuildingPlacement
 
+
+    /// <summary>
+    /// Update UI for when the player is trying to place the tile to indicate whether it is possible to place it or not
+    /// </summary>
+    public void UpdateTileHighlighting()
+    {
+        // we might not have to use pos, since the data about the current object is already here -> it probably shouldn't be here, it should be the responsibility of the object
+        highlightTilemap.ClearAllTiles();
+        Vector3Int start = gridLayout.WorldToCell(objectToPlace.GetStartPosition());
+        if (CanBePlaced(objectToPlace))
+        {
+            TakeArea(highlightTilemap, goodPlacementTile, start, objectToPlace.size);
+        }
+        else
+        {
+            TakeArea(highlightTilemap, badPlacementTile, start, objectToPlace.size);
+        }
+
+    }
+
     /// <summary>
     /// Instantiate a given prefab, attach an instance of PlaceableObject to it, and focus the BuildingSystem to it 
     /// </summary>
@@ -189,9 +217,9 @@ public class BuildingSystem : MonoBehaviour
     /// </summary>
     /// <param name="start"></param>
     /// <param name="size"></param>
-    public void TakeArea(Vector3Int start, Vector3Int size)
+    public void TakeArea(Tilemap tilemap, TileBase tile, Vector3Int start, Vector3Int size)
     {
-        mainTilemap.BoxFill(start, occupiedTile,
+        tilemap.BoxFill(start, tile,
             start.x, start.y,
             start.x + size.x, start.y + size.y);
     }

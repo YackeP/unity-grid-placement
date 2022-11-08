@@ -7,9 +7,7 @@ public class GridObjectManager : MonoBehaviour
 {
 
     public static GridObjectManager current;
-    [SerializeField]
-    Grid grid;
-
+   
     private List<PlacedObject> gridObjects = new List<PlacedObject>();
 
     public void Awake()

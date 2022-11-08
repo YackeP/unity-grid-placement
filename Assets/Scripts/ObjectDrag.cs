@@ -20,6 +20,7 @@ public class ObjectDrag : MonoBehaviour
     private void OnMouseDrag()
     {
         Vector3 pos = BuildingSystem.GetMouseWorldPosition() + offset;
+        BuildingSystem.current.UpdateTileHighlighting();
         transform.position = BuildingSystem.current.SnapCoordinatesToGrid(pos);
     }
 

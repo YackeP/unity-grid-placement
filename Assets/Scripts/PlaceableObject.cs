@@ -98,7 +98,7 @@ public class PlaceableObject : MonoBehaviour
         PlacedObject placedObjectScript = gameObject.GetComponent<PlacedObject>();
         // Debug.Log("placedMask value: " + placedMask.value); //128, which is 2^7, as the index of the chosen layer is 7, which can be gotten from NameToLayer()
         // we can fix this layer with some bithsifting magic
-        //Debug.Log("NameToLayer (index of the layer): " + LayerMask.NameToLayer("PlacedObject"));
+        // Debug.Log("NameToLayer (index of the layer): " + LayerMask.NameToLayer("PlacedObject"));
         // Debug.Log("using log: " + Mathf.Log(placedMask, 2));
 
         gameObject.layer = getLayerIndex(placedMask);
