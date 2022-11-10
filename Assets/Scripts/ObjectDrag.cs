@@ -12,7 +12,7 @@ public class ObjectDrag : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //the only relation we can get about the object's transform is the center. the offset stays constant -> place we started holding the mouse down vs the center of the transform, and the offset is constant
+        //the only relation we can get about the object's transform is the center. the offset stays constant -> offset is the place we started holding the mouse down vs the center of the transform, and the offset is constant
         offset = transform.position - BuildingSystem.GetMouseWorldPosition();
     }
 
@@ -20,7 +20,7 @@ public class ObjectDrag : MonoBehaviour
     private void OnMouseDrag()
     {
         Vector3 pos = BuildingSystem.GetMouseWorldPosition() + offset;
-        BuildingSystem.current.UpdateTileHighlighting();
+        HelperGridManager.current.UpdateTileHighlighting(PlayerControlsGrid.current.focusedPlaceableObject);
         transform.position = BuildingSystem.current.SnapCoordinatesToGrid(pos);
     }
 

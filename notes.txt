@@ -1,1 +1,6 @@
 - Right now all of the PlaceableItem/Icon are sprites -> they could be UI Images -> nvm, looks like Unity already made the changes in this regard
+TODO: Refactoring of the whole codebase so far -> what are each script's responsibilities?
+TODO: Write some tests for BuildingSystem - stubbing values for TileMap shouldn't be too difficult. Question is - how reliably will it represent the world state?
+
+Refactoring:
+	BuildingSystem

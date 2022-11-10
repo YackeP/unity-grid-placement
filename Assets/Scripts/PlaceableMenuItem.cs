@@ -20,6 +20,6 @@ public class PlaceableMenuItem : MonoBehaviour
 
     public void SelectPlaceable()
     {
-        BuildingSystem.current.placeableObject = pso.objectPrefab;
+        PlayerControlsGrid.current.objectToInstantiate = pso.objectPrefab;
     }
 }

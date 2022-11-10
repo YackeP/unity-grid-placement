@@ -2120,6 +2120,7 @@ GameObject:
   - component: {fileID: 817239892}
   - component: {fileID: 817239894}
   - component: {fileID: 817239893}
+  - component: {fileID: 817239895}
   m_Layer: 0
   m_Name: PlacementTilemap
   m_TagString: Untagged
@@ -4017,6 +4018,21 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &817239895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817239891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e279714bff8e0504b9ba2a9a9d1a2bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helperTilemap: {fileID: 817239894}
+  badPlacementTile: {fileID: 11400000, guid: 80b4008bec29a394c83e2cc970b5fda1, type: 2}
+  goodPlacementTile: {fileID: 11400000, guid: 012c7c19d8587e24eaa88a6db4e8693a, type: 2}
 --- !u!1 &855071835
 GameObject:
   m_ObjectHideFlags: 0
@@ -4357,6 +4373,7 @@ GameObject:
   - component: {fileID: 1957230917}
   - component: {fileID: 1957230916}
   - component: {fileID: 1957230915}
+  - component: {fileID: 1957230918}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4430,6 +4447,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: -10.724, z: 0}
+--- !u!114 &1957230918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957230914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820c35f17ef6cb646afdffa5570ae0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1993586204
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ public class PlaceableObject : MonoBehaviour
         for (int i = 0; i < gridVertices.Length; i++)
         {
             Vector3 worldPos = transform.TransformPoint(bottomVertices[i]); //transform.TransformPoint() - Transforms position from local space to world space
+            // maybe hide the gridLayout behind a WorldToCell getter so that it doesn't get exposed?
             gridVertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
 
         }
@@ -103,6 +104,7 @@ public class PlaceableObject : MonoBehaviour
 
         gameObject.layer = getLayerIndex(placedMask);
         placedObjectScript.enabled = true;
+        // but it would probably be better if it was not done here -> PlaceableObject doesn't need to know about GridObjectManger
         GridObjectManager.current.AddObjectToGrid(gameObject.GetComponent<PlacedObject>());
 
         placed = true;
@@ -123,6 +125,11 @@ public class PlaceableObject : MonoBehaviour
             return layerMask;
         }
         return (int)Mathf.Log(layerMask, 2);
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 
 }
