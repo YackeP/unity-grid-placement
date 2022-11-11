@@ -53,7 +53,7 @@ public class PlayerControlsGrid : MonoBehaviour
             {
                 // this Place() calls GridObjectManager.AddObjectToGrid, but it would probably be better if it was done here -> then the PlaceableObject doesn't need to know about GridObjectManger
                 focusedPlaceableObject.Place();
-                Vector3Int start = BuildingSystem.current.gridLayout.WorldToCell(focusedPlaceableObject.GetStartPosition());
+                Vector3Int start = BuildingSystem.current.grid.WorldToCell(focusedPlaceableObject.GetStartPosition()); // we can make a special method WorldToCell in BuildingSystem to enforce everything being on the same height level of the grid 
                 start.z = 0; // this is so that all the objects are placed on the same grid height (because of the XZY swizzle, the vector's Z component is responsible on height in the grid)
                 BuildingSystem.current.TakeArea(start, focusedPlaceableObject.size);
                 HelperGridManager.current.ResetTiles();

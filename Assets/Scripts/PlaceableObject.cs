@@ -53,13 +53,13 @@ public class PlaceableObject : MonoBehaviour
         {
             Vector3 worldPos = transform.TransformPoint(bottomVertices[i]); //transform.TransformPoint() - Transforms position from local space to world space
             // maybe hide the gridLayout behind a WorldToCell getter so that it doesn't get exposed?
-            gridVertices[i] = BuildingSystem.current.gridLayout.WorldToCell(worldPos);
+            gridVertices[i] = BuildingSystem.current.grid.WorldToCell(worldPos);
 
         }
 
         size = new Vector3Int(
-            Mathf.Abs((gridVertices[0] - gridVertices[1]).x),
-            Mathf.Abs((gridVertices[0] - gridVertices[3]).y),
+            Mathf.CeilToInt(Mathf.Abs((gridVertices[0] - gridVertices[1]).x)),
+            Mathf.CeilToInt(Mathf.Abs((gridVertices[0] - gridVertices[3]).y)),
             1);
         // interdasting -> we set z as 1, even tho we are operating on the XZ axis on the gridm. In gobal world, the y value should probably have been set to 1
 

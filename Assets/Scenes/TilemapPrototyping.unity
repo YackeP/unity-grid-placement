@@ -309,17 +309,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c593f83774c3e742adbd137e756cf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridLayout: {fileID: 36330811}
+  grid: {fileID: 36330811}
   mainTilemap: {fileID: 171756004}
-  highlightTilemap: {fileID: 817239894}
   occupiedTile: {fileID: 11400000, guid: c048b8e9a3722f54892233831b4fca69, type: 2}
-  badPlacementTile: {fileID: 11400000, guid: 80b4008bec29a394c83e2cc970b5fda1, type: 2}
-  goodPlacementTile: {fileID: 11400000, guid: 012c7c19d8587e24eaa88a6db4e8693a, type: 2}
   gridObjectManager: {fileID: 36330814}
   prefab1: {fileID: 696221714673927742, guid: d1ad17e0ece22264f80e11a308601adf, type: 3}
   prefab2: {fileID: 5250337276938464273, guid: eb8ea8b5ddc4e974f9fc9f783ea8b356, type: 3}
   prefab3: {fileID: 786138567407530640, guid: 407901ba87b7fe5469df2c880b544acb, type: 3}
-  placeableObject: {fileID: 0}
 --- !u!114 &36330814
 MonoBehaviour:
   m_ObjectHideFlags: 0

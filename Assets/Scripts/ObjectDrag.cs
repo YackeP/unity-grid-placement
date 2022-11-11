@@ -20,7 +20,7 @@ public class ObjectDrag : MonoBehaviour
     private void OnMouseDrag()
     {
         Vector3 pos = BuildingSystem.GetMouseWorldPosition() + offset;
-        HelperGridManager.current.UpdateTileHighlighting(PlayerControlsGrid.current.focusedPlaceableObject);
+        HelperGridManager.current.UpdateTileHighlighting(PlayerControlsGrid.current.focusedPlaceableObject); // or keep the reference to the PlaceableObject- brother script, in this file, so we don't have get the reference of a brother script from another script
         transform.position = BuildingSystem.current.SnapCoordinatesToGrid(pos);
     }
 

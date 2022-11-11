@@ -11,10 +11,7 @@ public class BuildingSystem : MonoBehaviour
 {
     public static BuildingSystem current;
 
-    // used only to call GridLayout.WorldToCell() - coordinate system that will be shared by all the children tileMaps
-    public GridLayout gridLayout;
-    // Grid implements GridLayout, has property Grid.cellLayout, so we can have just 1 field for both of these variables
-    private Grid grid;
+    public Grid grid;
 
     [SerializeField]
     private Tilemap mainTilemap;
@@ -34,14 +31,12 @@ public class BuildingSystem : MonoBehaviour
     private void Awake()
     {
         current = this;
-        grid = gridLayout.gameObject.GetComponent<Grid>();
     }
 
 
     #endregion
 
     #region Utils
-
 
 
     /// <summary>
@@ -66,7 +61,7 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="position">Position to be snapped to the closest cell position</param>
     public Vector3 SnapCoordinatesToGrid(Vector3 position)
     {
-        Vector3Int cellPos = gridLayout.WorldToCell(position);
+        Vector3Int cellPos = grid.WorldToCell(position);
         position = grid.GetCellCenterWorld(cellPos);
         position.y = 0;
         return position;
@@ -96,8 +91,6 @@ public class BuildingSystem : MonoBehaviour
     #region BuildingPlacement
 
 
-
-
     /// <summary>
     /// Check if the currently focused placeable object can be placed in it's current position
     /// </summary>
@@ -106,10 +99,11 @@ public class BuildingSystem : MonoBehaviour
     {
         BoundsInt area = new BoundsInt(); // Represents an axis aligned bounding box with all values as integers.
                                           // So a bounding box with opposing extreme points being (0,0,0) and (x,y,z) 
-        area.position = gridLayout.WorldToCell(placeableObject.GetStartPosition());
+        area.position = grid.WorldToCell(placeableObject.GetStartPosition());
         area.size = placeableObject.size;  // this was overwritten by comments in the original video by the next line (https://youtu.be/rKp9fWvmIww?t=782)
 
         TileBase[] baseArray = GetTilesBlock(area, mainTilemap);
+        Debug.Log("Checking placement, bounds is " + area.ToString() + " baseArray has " + baseArray.Length + " elements");
 
         foreach (var b in baseArray)
         {
@@ -133,7 +127,7 @@ public class BuildingSystem : MonoBehaviour
             start.x, start.y,
             start.x + size.x, start.y + size.y);
     }
-        
+
     public void TakeArea(Vector3Int start, Vector3Int size)
     {
         TakeArea(mainTilemap, occupiedTile, start, size);
