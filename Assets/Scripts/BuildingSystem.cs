@@ -7,14 +7,9 @@ using UnityEngine.Tilemaps;
  based on a tile placement system by TamaraMakesGames https://www.youtube.com/watch?v=rKp9fWvmIww 
  */
 
-public class BuildingSystem : MonoBehaviour
+public class BuildingSystem : BaseGridManager
 {
     public static BuildingSystem current;
-
-    public Grid grid;
-
-    [SerializeField]
-    private Tilemap mainTilemap;
 
     [SerializeField]
     private TileBase occupiedTile;
@@ -61,29 +56,7 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="position">Position to be snapped to the closest cell position</param>
     public Vector3 SnapCoordinatesToGrid(Vector3 position)
     {
-        Vector3Int cellPos = grid.WorldToCell(position);
-        position = grid.GetCellCenterWorld(cellPos);
-        position.y = 0;
-        return position;
-    }
-
-    /// <summary>
-    /// Returns an array of tiles on the tilemap that are covered by the given area
-    /// </summary>
-    /// <param name="area"></param>
-    /// <param name="tilemap">Tilemap from which the tiles are to be taken</param>
-    private TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
-    {
-        TileBase[] tileArray = new TileBase[area.size.x * area.size.y * area.size.z];
-        int counter = 0;
-
-        foreach (var v in area.allPositionsWithin)
-        {
-            Vector3Int pos = new Vector3Int(v.x, v.y, 0);
-            tileArray[counter] = tilemap.GetTile(pos);
-            counter++;
-        }
-        return tileArray;
+        return _snapCoordinatesToGrid(position);
     }
 
     #endregion
@@ -97,41 +70,15 @@ public class BuildingSystem : MonoBehaviour
     /// <param name="placeableObject"></param>
     public bool CanBePlaced(PlaceableObject placeableObject)
     {
-        BoundsInt area = new BoundsInt(); // Represents an axis aligned bounding box with all values as integers.
-                                          // So a bounding box with opposing extreme points being (0,0,0) and (x,y,z) 
-        area.position = grid.WorldToCell(placeableObject.GetStartPosition());
-        area.size = placeableObject.size;  // this was overwritten by comments in the original video by the next line (https://youtu.be/rKp9fWvmIww?t=782)
-
-        TileBase[] baseArray = GetTilesBlock(area, mainTilemap);
-        Debug.Log("Checking placement, bounds is " + area.ToString() + " baseArray has " + baseArray.Length + " elements");
-
-        foreach (var b in baseArray)
-        {
-            if (b == occupiedTile) // if any of the tiles is occupied
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Set an area on the tilemap as occupied
-    /// </summary>
-    /// <param name="start"></param>
-    /// <param name="size"></param>
-    private void TakeArea(Tilemap tilemap, TileBase tile, Vector3Int start, Vector3Int size)
-    {
-        tilemap.BoxFill(start, tile,
-            start.x, start.y,
-            start.x + size.x, start.y + size.y);
+        return _placeableObjectOverlapsTile(placeableObject, occupiedTile);
     }
 
     public void TakeArea(Vector3Int start, Vector3Int size)
     {
-        TakeArea(mainTilemap, occupiedTile, start, size);
+        _takeArea(tilemap, occupiedTile, start, size);
     }
+
+
 
     #endregion
 }

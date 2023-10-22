@@ -14,7 +14,7 @@ public class PlaceableObject : MonoBehaviour
     /// </summary>
     public Vector3Int size { get; private set; }
     /// <summary>
-    /// Array of points defining the bottom side of the collider in the local space, used to check how much space the object is going to take on the tilemap
+    /// Array of points defining the bottom side of the collider in the local space (centered on center of the object), used to check how much space the object is going to take on the tilemap
     /// </summary>
     private Vector3[] bottomVertices;
 
@@ -51,8 +51,10 @@ public class PlaceableObject : MonoBehaviour
 
         for (int i = 0; i < gridVertices.Length; i++)
         {
-            Vector3 worldPos = transform.TransformPoint(bottomVertices[i]); //transform.TransformPoint() - Transforms position from local space to world space
+            // bottomVertices are relative to the center of this object!
+            Vector3 worldPos = transform.TransformPoint(bottomVertices[i] + gameObject.transform.position); //transform.TransformPoint() - Transforms position from local space to world space
             // maybe hide the gridLayout behind a WorldToCell getter so that it doesn't get exposed?
+            // why do we even use worldPos? This shouldn't matter, but rather just the bounding box of this object
             gridVertices[i] = BuildingSystem.current.grid.WorldToCell(worldPos);
 
         }
